@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config(); // Add this line
+require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const moodLogRoutes = require('./routes/mood');
 const correlationRoutes = require('./routes/correlation');
@@ -18,8 +18,13 @@ mongoose.connect(process.env.MONGODB_URI, {
 });
 
 app.use('/auth', authRoutes);
-app.use('/moodlogs', moodLogRoutes)
+app.use('/moodlogs', moodLogRoutes);
 app.use('/correlation', correlationRoutes);
+
+// Add a basic health check endpoint
+app.get('/', (req, res) => {
+  res.send('Mindful Map API is running');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
